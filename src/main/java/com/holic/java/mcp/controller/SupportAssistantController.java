@@ -1,16 +1,8 @@
 package com.holic.java.mcp.controller;
 
+import com.holic.java.mcp.service.OrchestratorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
-import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
-import org.springframework.ai.chat.memory.MessageWindowChatMemory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Контроллер поддержки — проксирует запросы к ChatClient Spring AI и хранит
@@ -21,16 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class SupportAssistantController {
 
-    @Qualifier("llamaChatClient")
-    private final ChatClient llamaClient;
+    private final OrchestratorService orchestratorService;
 
-    @Qualifier("openAiChatClient")
-    private final ChatClient openAiClient;
-    private final Map<String, PromptChatMemoryAdvisor> advisorMap = new ConcurrentHashMap<>();
-
-    private final String systemPrompt = """
-            
-            """;
+    @PostMapping("/{user}/ask")
+    public String ask(@PathVariable String user, @RequestParam String question) {
+        String agentResponse = orchestratorService.orchestrate(user, question);
+        return agentResponse;
+    }
 
     /**
      * Обрабатывает GET-запрос /{user}/inquire?question=... и возвращает ответ
@@ -40,32 +29,32 @@ public class SupportAssistantController {
      * @param question текст запроса пользователя
      * @return ответ модели в виде строки
      */
-    @GetMapping("/{user}/inquire")
-    public String ask(@PathVariable String user,
-                      @RequestParam String question) {
-
-
-        ChatMemory chatMemory1 = MessageWindowChatMemory.builder()
-                .chatMemoryRepository(new InMemoryChatMemoryRepository())
-                .maxMessages(10)
-                .build();
-
-        var advisor = this.advisorMap.computeIfAbsent(user,
-                _ -> PromptChatMemoryAdvisor.builder(chatMemory1).build());
-
-        var response = llamaClient
-                .prompt(question)
-                .user(user)
-                .advisors(advisor)
-                .call()
-                .content();
-
-        var llamaResponse = openAiClient
-                .prompt(question)
-                .user(user)
-                .call()
-                .content();
-        return response + "...........................\n"
-                + llamaResponse;
-    }
+//    @GetMapping("/{user}/inquire")
+//    public String ask(@PathVariable String user,
+//                      @RequestParam String question) {
+//
+//
+//        ChatMemory chatMemory1 = MessageWindowChatMemory.builder()
+//                .chatMemoryRepository(new InMemoryChatMemoryRepository())
+//                .maxMessages(10)
+//                .build();
+//
+//        var advisor = this.advisorMap.computeIfAbsent(user,
+//                _ -> PromptChatMemoryAdvisor.builder(chatMemory1).build());
+//
+//        var response = llamaClient
+//                .prompt(question)
+//                .user(user)
+//                .advisors(advisor)
+//                .call()
+//                .content();
+//
+//        var llamaResponse = openAiClient
+//                .prompt(question)
+//                .user(user)
+//                .call()
+//                .content();
+//        return response + "...........................\n"
+//                + llamaResponse;
+//    }
 }
