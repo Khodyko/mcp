@@ -59,6 +59,7 @@ public class ProductDto {
     public void setType(String type) {
         this.type = type;
     }
+
 }
 
 

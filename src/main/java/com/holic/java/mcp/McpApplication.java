@@ -2,11 +2,9 @@ package com.holic.java.mcp;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.DefaultChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaApi;
-import org.springframework.ai.ollama.api.OllamaModel;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.api.OpenAiApi;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
@@ -24,10 +23,8 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:env.properties")
 public class McpApplication {
 
-    private final OpenAiApi openAiApi;
-
     public static void main(String[] args) {
-        SpringApplication.run(McpApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(McpApplication.class, args);
     }
 
     @Value("${spring.ai.openai.api-key}")
@@ -65,7 +62,7 @@ public class McpApplication {
 
 
     @Bean("llamaChatClient")
-     @Primary
+    @Primary
     public ChatClient llamaChatClient(@Qualifier("llamaModel") ChatModel chatModel) {
         ChatClient llamaChatClient = ChatClient.builder(chatModel).build();
         return llamaChatClient;

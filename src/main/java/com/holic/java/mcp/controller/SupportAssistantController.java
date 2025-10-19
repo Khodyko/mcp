@@ -15,7 +15,7 @@ public class SupportAssistantController {
 
     private final OrchestratorService orchestratorService;
 
-    @PostMapping("/{user}/ask")
+    @GetMapping("/{user}/ask")
     public String ask(@PathVariable String user, @RequestParam String question) {
         String agentResponse = orchestratorService.orchestrate(user, question);
         return agentResponse;

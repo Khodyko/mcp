@@ -10,7 +10,6 @@ public interface OrderService {
     OrderDto createOrder(OrderDto order);
     OrderDto getOrderById(Long id);
     List<OrderDto> getOrdersByCustomerId(Long customerId);
-    OrderDto updateOrder(Long id, OrderDto order);
 }
 
 
