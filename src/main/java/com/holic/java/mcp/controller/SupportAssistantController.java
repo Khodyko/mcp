@@ -3,12 +3,11 @@ package com.holic.java.mcp.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,8 +28,9 @@ public class SupportAssistantController {
     private final ChatClient openAiClient;
     private final Map<String, PromptChatMemoryAdvisor> advisorMap = new ConcurrentHashMap<>();
 
-//    private final JdbcChatMemoryRepository chatMemoryRepository;
-
+    private final String systemPrompt = """
+            
+            """;
 
     /**
      * Обрабатывает GET-запрос /{user}/inquire?question=... и возвращает ответ
@@ -43,24 +43,29 @@ public class SupportAssistantController {
     @GetMapping("/{user}/inquire")
     public String ask(@PathVariable String user,
                       @RequestParam String question) {
-//        ChatMemory chatMemory = MessageWindowChatMemory.builder()
-//                .chatMemoryRepository(chatMemoryRepository)
-//                .maxMessages(10)
-//                .build();
-//        var advisor = this.advisorMap.computeIfAbsent(user,
-//                _ -> PromptChatMemoryAdvisor.builder(chatMemory).build());
+
+
+        ChatMemory chatMemory1 = MessageWindowChatMemory.builder()
+                .chatMemoryRepository(new InMemoryChatMemoryRepository())
+                .maxMessages(10)
+                .build();
+
+        var advisor = this.advisorMap.computeIfAbsent(user,
+                _ -> PromptChatMemoryAdvisor.builder(chatMemory1).build());
+
         var response = llamaClient
                 .prompt(question)
-                .user(question)
-//                .advisors(advisor)
+                .user(user)
+                .advisors(advisor)
                 .call()
                 .content();
+
         var llamaResponse = openAiClient
                 .prompt(question)
-                .user(question)
-//                .advisors(advisor)
+                .user(user)
                 .call()
                 .content();
-        return response + "..........................." + llamaResponse;
+        return response + "...........................\n"
+                + llamaResponse;
     }
 }
