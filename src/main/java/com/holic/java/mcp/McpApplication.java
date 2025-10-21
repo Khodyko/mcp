@@ -38,7 +38,6 @@ public class McpApplication {
     }
 
     @Bean("openAiChatModel1")
-    @Primary
     public ChatModel chatModel() {
         var openAiApi = OpenAiApi.builder().apiKey(openAiApiKey).build();
         return OpenAiChatModel.builder()
@@ -48,6 +47,7 @@ public class McpApplication {
 
 
     @Bean("llamaModel")
+    @Primary
     public ChatModel chatModelLlama() {
         var ollamaApi = OllamaApi.builder().build();
         return OllamaChatModel.builder()
