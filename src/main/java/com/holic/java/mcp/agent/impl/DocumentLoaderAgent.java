@@ -28,7 +28,7 @@ public class DocumentLoaderAgent {
     private final CustomerRepository customerRepository;
     private final ObjectMapper objectMapper;
 
-    @Tool(description = "load products to database using standard folder.")
+    @Tool(description = "load products to database using standard folder.", name = "productFromFolderLoader")
     public String loadProductsJsonFile() {
         Resource productsJson = new ClassPathResource("products-data.json");
         try (InputStream is = productsJson.getInputStream()) {
@@ -44,7 +44,7 @@ public class DocumentLoaderAgent {
         }
     }
 
-    @Tool(description = "load customers to database using standard folder.")
+    @Tool(description = "load customers to database using standard folder.", name = "customerFromFolderLoader")
     public String loadCustomerJsonFile() {
         Resource customerJson = new ClassPathResource("customer-data.json");
         try (InputStream is = customerJson.getInputStream()) {
