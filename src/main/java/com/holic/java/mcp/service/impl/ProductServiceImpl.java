@@ -1,14 +1,17 @@
 package com.holic.java.mcp.service.impl;
 
 import com.holic.java.mcp.dto.ProductDto;
+import com.holic.java.mcp.dto.ProductVectorDto;
 import com.holic.java.mcp.mapper.ProductMapper;
 import com.holic.java.mcp.model.Product;
 import com.holic.java.mcp.repository.ProductRepository;
+import com.holic.java.mcp.repository.ProductVectorRepository;
 import com.holic.java.mcp.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,12 +21,15 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final ProductVectorRepository productVectorRepository;
 
     @Override
-    public ProductDto createProduct(ProductDto productDto) {
-        Product product = productMapper.toEntity(productDto);
-        Product saved = productRepository.save(product);
-        return productMapper.toDto(saved);
+    public List<ProductDto> createProducts(List<ProductDto> productDtos) {
+        List<Product> products = productMapper.toEntity(productDtos);
+        List<Product> saved = productRepository.saveAll(products);
+        List<ProductVectorDto> vectorDtoList = productMapper.toVectorDtos(saved);
+        productVectorRepository.saveVector(vectorDtoList);
+        return productMapper.toDtos(saved);
     }
 
     @Override

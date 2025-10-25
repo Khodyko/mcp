@@ -6,10 +6,6 @@ import com.holic.java.mcp.agent.SupportAgent;
  * Маркерный класс агента, обрабатывающего запросы по продуктам.
  */
 public class ProductAgent implements SupportAgent {
-    @Override
-    public boolean canHandle(String query) {
-        return false;
-    }
 
     @Override
     public String handle(String query) {

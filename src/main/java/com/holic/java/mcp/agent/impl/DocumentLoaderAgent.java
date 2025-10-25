@@ -32,10 +32,9 @@ public class DocumentLoaderAgent {
     public String loadProductsJsonFile() {
         Resource productsJson = new ClassPathResource("products-data.json");
         try (InputStream is = productsJson.getInputStream()) {
-            List<ProductDto> products = objectMapper.readValue(is, new TypeReference<>() {});
-            for (ProductDto product : products) {
-                productService.createProduct(product);
-            }
+            List<ProductDto> products = objectMapper.readValue(is, new TypeReference<>() {
+            });
+            productService.createProducts(products);
             log.info("Loaded {} products from JSON", products.size());
             return "saved " + products.size() + " products";
         } catch (Exception e) {
@@ -48,7 +47,8 @@ public class DocumentLoaderAgent {
     public String loadCustomerJsonFile() {
         Resource customerJson = new ClassPathResource("customer-data.json");
         try (InputStream is = customerJson.getInputStream()) {
-            List<Customer> customers = objectMapper.readValue(is, new TypeReference<>() {});
+            List<Customer> customers = objectMapper.readValue(is, new TypeReference<>() {
+            });
             customerRepository.saveAll(customers);
             log.info("Loaded {} customers from JSON", customers.size());
             return "saved " + customers.size() + " customers";

@@ -6,10 +6,6 @@ import com.holic.java.mcp.agent.SupportAgent;
  * Маркерный класс агента рекомендаций.
  */
 public class RecommendationAgent implements SupportAgent {
-    @Override
-    public boolean canHandle(String query) {
-        return false;
-    }
 
     @Override
     public String handle(String query) {

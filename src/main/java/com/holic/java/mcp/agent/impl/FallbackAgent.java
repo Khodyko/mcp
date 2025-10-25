@@ -7,11 +7,6 @@ import com.holic.java.mcp.agent.SupportAgent;
  */
 public class FallbackAgent implements SupportAgent {
     @Override
-    public boolean canHandle(String query) {
-        return false;
-    }
-
-    @Override
     public String handle(String query) {
         return "";
     }

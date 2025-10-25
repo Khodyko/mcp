@@ -7,7 +7,7 @@ import java.util.List;
  * Сервис для работы с продуктами (интерфейс, реализация позже).
  */
 public interface ProductService {
-    ProductDto createProduct(ProductDto product);
+    List<ProductDto> createProducts(List<ProductDto> products);
     ProductDto getProductById(Long id);
     void deleteProduct(Long id);
 }

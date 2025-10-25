@@ -1,9 +1,11 @@
 package com.holic.java.mcp.mapper;
 
 import com.holic.java.mcp.dto.ProductDto;
+import com.holic.java.mcp.dto.ProductVectorDto;
 import com.holic.java.mcp.model.Product;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * MapStruct mapper for Product <-> ProductDto.
@@ -11,11 +13,14 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
-
     Product toEntity(ProductDto dto);
+    List<Product> toEntity(List<ProductDto> dtos);
 
     ProductDto toDto(Product entity);
+    List<ProductDto> toDtos(List<Product> entities);
+
+    ProductVectorDto toVectorDto(Product entity);
+    List<ProductVectorDto> toVectorDtos(List<Product> entities);
 }
 
 
