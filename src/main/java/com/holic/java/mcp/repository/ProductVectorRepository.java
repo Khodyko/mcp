@@ -14,5 +14,5 @@ public interface ProductVectorRepository {
 
     void saveVector(List<ProductVectorDto> vectorMetadataDto);
 
-    List<Document> searchProductsByDescription(String description, int limit);
+    List<ProductVectorDto> searchProductsByDescription(String description, int limit);
 }

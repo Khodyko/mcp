@@ -1,6 +1,7 @@
 package com.holic.java.mcp.service.impl;
 
 import com.holic.java.mcp.agent.impl.DocumentLoaderAgent;
+import com.holic.java.mcp.agent.impl.ProductAgent;
 import com.holic.java.mcp.service.OrchestratorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class OrderOrchestratorService implements OrchestratorService {
 
     private final DocumentLoaderAgent documentLoaderAgent;
+    private final ProductAgent productAgent;
     @Qualifier("openAiChatClient")
     private final ChatClient openAiChatClient;
 
@@ -22,8 +24,11 @@ public class OrderOrchestratorService implements OrchestratorService {
 
         String response = openAiChatClient
                 .prompt(query)
-                .user(chatId)
-                .tools(documentLoaderAgent)
+//                .user(chatId)
+                .tools(
+                        documentLoaderAgent,
+                        productAgent
+                )
                 .call()
                 .content();
 

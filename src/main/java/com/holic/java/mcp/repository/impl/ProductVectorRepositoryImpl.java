@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class ProductProductVectorRepositoryImpl implements ProductVectorRepository {
+public class ProductVectorRepositoryImpl implements ProductVectorRepository {
 
     private final VectorStore vectorStore;
 
@@ -36,12 +36,17 @@ public class ProductProductVectorRepositoryImpl implements ProductVectorReposito
     }
 
     @Override
-    public List<Document> searchProductsByDescription(String description, int limit) {
+    public List<ProductVectorDto> searchProductsByDescription(String description, int limit) {
         SearchRequest searchRequest = SearchRequest.builder()
                 .topK(limit)
                 .similarityThreshold(0.7F)
                 .build();
 
-        return vectorStore.similaritySearch(searchRequest);
+        List<Document> documents= vectorStore.similaritySearch(description);
+        List<ProductVectorDto> productVectorDtos = new ArrayList<>();
+        for(Document document : documents){
+            productVectorDtos.add(new  ProductVectorDto(document));
+        }
+        return productVectorDtos;
     }
 }
