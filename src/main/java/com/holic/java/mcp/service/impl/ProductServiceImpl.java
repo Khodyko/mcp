@@ -42,4 +42,10 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+
+    @Override
+    public ProductDto getProductsByNameIgnoreCase(String productName) {
+        Product product = productRepository.getProductsByNameIgnoreCase(productName);
+        return productMapper.toDto(product);
+    }
 }

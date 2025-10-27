@@ -7,6 +7,6 @@ public interface OrchestratorService {
      * @param query входной текстовый запрос
      * @return агрегированный текстовый ответ
      */
-    String orchestrate(String chatId, String query);
+    String orchestrate(Integer chatId, String query);
 
 }
