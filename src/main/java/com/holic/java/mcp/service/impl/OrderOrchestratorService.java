@@ -1,6 +1,8 @@
 package com.holic.java.mcp.service.impl;
 
 import com.holic.java.mcp.agent.OrderAgent;
+import com.holic.java.mcp.agent.chain.ChainAgent;
+import com.holic.java.mcp.agent.chain.impl.MainChainAgent;
 import com.holic.java.mcp.agent.impl.DocumentLoaderAgent;
 import com.holic.java.mcp.agent.impl.ProductAgent;
 import com.holic.java.mcp.service.OrchestratorService;
@@ -28,6 +30,12 @@ public class OrderOrchestratorService implements OrchestratorService {
     @Qualifier("openAiChatClient")
     private final ChatClient openAiChatClient;
 
+    private final MainChainAgent mainChainAgent;
+    @Qualifier("chainYellowAgent")
+    private final ChainAgent chainYellowAgent;
+    @Qualifier("chainRedAgent")
+    private final ChainAgent chainRedAgent;
+
     @Override
     public String orchestrate(Integer userId, String query) {
         Map<String, Object> toolContext = Map.of(CUSTOMER_ID, userId);
@@ -38,13 +46,14 @@ public class OrderOrchestratorService implements OrchestratorService {
                 .build();
        String query2= query.replace("{", "\\{").replace("}", "\\}");
         Prompt prompt = new Prompt(query2);
+        prompt.augmentSystemMessage("вызывай tool только, если это явно указано в запросе.");
 
         String response = openAiChatClient
                 .prompt(prompt)
 //                .user(userId)
                 .toolContext(toolContext)
                 .tools(
-//                        documentLoaderAgent,
+                        documentLoaderAgent,
 //                        productAgent,
                         orderAgent
                 )
@@ -55,4 +64,32 @@ public class OrderOrchestratorService implements OrchestratorService {
 
         return response;
     }
+
+
+
+    @Override
+    public String orchestrateChain(Integer userId, String query) {
+        Map<String, Object> toolContext = Map.of(CUSTOMER_ID, userId);
+
+        String query2= query.replace("{", "\\{").replace("}", "\\}");
+        Prompt prompt = new Prompt(query2);
+        prompt.augmentSystemMessage("вызывай tool только, если это явно указано в запросе.");
+
+        String response = openAiChatClient
+                .prompt(prompt)
+//                .user(userId)
+                .toolContext(toolContext)
+                .tools(
+                        mainChainAgent,
+                        chainRedAgent,
+                        chainYellowAgent
+                )
+                .call()
+                .content();
+
+        log.debug("response from openAiChatClient: {}", response);
+
+        return response;
+    }
+
 }

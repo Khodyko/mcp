@@ -9,4 +9,5 @@ public interface OrchestratorService {
      */
     String orchestrate(Integer chatId, String query);
 
+    String orchestrateChain(Integer userId, String query);
 }

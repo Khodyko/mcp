@@ -21,40 +21,9 @@ public class SupportAssistantController {
         return agentResponse;
     }
 
-    /**
-     * Обрабатывает GET-запрос /{user}/inquire?question=... и возвращает ответ
-     * от модели.
-     *
-     * @param user     идентификатор пользователя (используется для отделения памяти)
-     * @param question текст запроса пользователя
-     * @return ответ модели в виде строки
-     */
-//    @GetMapping("/{user}/inquire")
-//    public String ask(@PathVariable String user,
-//                      @RequestParam String question) {
-//
-//
-//        ChatMemory chatMemory1 = MessageWindowChatMemory.builder()
-//                .chatMemoryRepository(new InMemoryChatMemoryRepository())
-//                .maxMessages(10)
-//                .build();
-//
-//        var advisor = this.advisorMap.computeIfAbsent(user,
-//                _ -> PromptChatMemoryAdvisor.builder(chatMemory1).build());
-//
-//        var response = llamaClient
-//                .prompt(question)
-//                .user(user)
-//                .advisors(advisor)
-//                .call()
-//                .content();
-//
-//        var llamaResponse = openAiClient
-//                .prompt(question)
-//                .user(user)
-//                .call()
-//                .content();
-//        return response + "...........................\n"
-//                + llamaResponse;
-//    }
+    @GetMapping("/{user}/chain/ask")
+    public String askChain(@PathVariable Integer user, @RequestParam String question) {
+        String agentResponse = orchestratorService.orchestrateChain(user, question);
+        return agentResponse;
+    }
 }

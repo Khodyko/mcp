@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Espresso",
+    "description": "Classic strong espresso, 30ml",
+    "price": 2.50,
+    "stock": 150,
+    "type": "beverage"
+  },
+  {
+    "name": "Cappuccino",
+    "description": "Espresso with steamed milk and foam",
+    "price": 3.50,
+    "stock": 120,
+    "type": "beverage"
+  },
+  {
+    "name": "Cheesecake",
+    "description": "Creamy cheesecake slice",
+    "price": 4.00,
+    "stock": 40,
+    "type": "food"
+  },
+  {
+    "name": "Blueberry Muffin",
+    "description": "Freshly baked muffin with blueberries",
+    "price": 2.75,
+    "stock": 60,
+    "type": "food"
+  },
+  {
+    "name": "Bagel",
+    "description": "Plain bagel, 70g",
+    "price": 1.50,
+    "stock": 80,
+    "type": "food"
+  }
+]
+
+

@@ -3,6 +3,7 @@ package com.holic.java.mcp.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.model.tool.ToolExecutionEligibilityPredicate;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ public class AIConfig {
 
     @Value("${spring.ai.openai.api-key}")
     private final String openAiApiKey;
+    private final ToolExecutionEligibilityPredicate toolExecutionEligibilityPredicate;
 
 
     @Bean("openAiChatClient")
@@ -31,6 +33,7 @@ public class AIConfig {
         var openAiApi = OpenAiApi.builder().apiKey(openAiApiKey)
                 .build();
         return OpenAiChatModel.builder()
+                .toolExecutionEligibilityPredicate(toolExecutionEligibilityPredicate)
                 .openAiApi(openAiApi)
                 .build();
     }

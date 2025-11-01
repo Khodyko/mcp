@@ -11,9 +11,10 @@
 - [x] Подключена локальная LLM и удалённая LLM одновременно
 - [x] Настроен RAG с векторной базой
 - [x] Интеграция MCP выполнена
-- [ ] Реализовать ToolExecutionEligibilityPredicate для понимания запускать или нет Агент
-- [ ] Оркестратор выбирает и вызывает подходящие агенты
-- [ ] Реализованы агенты: OrderAgent, ProductAgent, RecommendationAgent, FallbackAgent
+- [x] Реализовать ToolExecutionEligibilityPredicate для понимания запускать или нет Агент
+- [x] Оркестратор выбирает и вызывает подходящие агенты
+- [x] Показать цепочки вызовов ИИ
+- [x] Реализованы агенты: OrderAgent, ProductAgent, RecommendationAgent, FallbackAgent
 - [ ] Пример использования доступен для демонстрации и тестирования
 
 
