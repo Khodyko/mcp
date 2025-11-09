@@ -1,7 +1,6 @@
 package com.holic.java.mcp.dto;
 
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.ai.document.Document;
 
@@ -24,7 +23,6 @@ public class ProductVectorDto {
 
     public ProductVectorDto(Document document) {
         Map<String, Object> meta = document.getMetadata();
-
 
         id = (Integer) meta.get(Fields.id);
         name = (String) meta.get(Fields.name);

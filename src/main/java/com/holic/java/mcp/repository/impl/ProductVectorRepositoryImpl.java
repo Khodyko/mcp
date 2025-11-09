@@ -38,6 +38,7 @@ public class ProductVectorRepositoryImpl implements ProductVectorRepository {
     @Override
     public List<ProductVectorDto> searchProductsByDescription(String description, int limit) {
         SearchRequest searchRequest = SearchRequest.builder()
+                .query(description)
                 .topK(limit)
                 .similarityThreshold(0.7F)
                 .build();

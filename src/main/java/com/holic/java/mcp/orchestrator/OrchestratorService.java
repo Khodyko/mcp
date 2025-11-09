@@ -1,4 +1,4 @@
-package com.holic.java.mcp.service;
+package com.holic.java.mcp.orchestrator;
 
 public interface OrchestratorService {
 
@@ -9,5 +9,5 @@ public interface OrchestratorService {
      */
     String orchestrate(Integer chatId, String query);
 
-    String orchestrateChain(Integer userId, String query);
+    String orchestrateThroughtChatOptions(Integer userId, String query);
 }

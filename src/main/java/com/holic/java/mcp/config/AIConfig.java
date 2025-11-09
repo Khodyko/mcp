@@ -3,9 +3,13 @@ package com.holic.java.mcp.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.model.tool.DefaultToolCallingManager;
+import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.model.tool.ToolExecutionEligibilityPredicate;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.tool.execution.DefaultToolExecutionExceptionProcessor;
+import org.springframework.ai.tool.execution.ToolExecutionExceptionProcessor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -24,8 +28,7 @@ public class AIConfig {
 
     @Bean("openAiChatClient")
     public ChatClient chatClient(@Qualifier("openAiChatModel1") ChatModel chatModel) {
-        ChatClient openAiChatClient = ChatClient.builder(chatModel).build();
-        return openAiChatClient;
+        return ChatClient.builder(chatModel).build();
     }
 
     @Bean("openAiChatModel1")
@@ -38,26 +41,21 @@ public class AIConfig {
                 .build();
     }
 
+    /**
+     * Менеджер исполнения tool-calls в user-controlled режиме.
+     */
+    @Bean
+    public ToolCallingManager toolCallingManager() {
+        return DefaultToolCallingManager.builder().build();
+    }
 
-//    @Bean("llamaModel")
-//    @Primary
-//    public ChatModel chatModelLlama() {
-//        var ollamaApi = OllamaApi.builder().build();
-//        return OllamaChatModel.builder()
-//                .ollamaApi(ollamaApi)
-//                .defaultOptions(
-//                        OllamaOptions.builder()
-//                                .model("llama3:8b")
-//                                .temperature(0.9)
-//                                .build())
-//                .build();
-//    }
+    /**
+     * Политика обработки ошибок при вызове тулов.
+     * true — пробрасывать исключения наружу; false — возвращать ошибку в модель.
+     */
+    @Bean
+    public ToolExecutionExceptionProcessor toolExecutionExceptionProcessor() {
+        return new DefaultToolExecutionExceptionProcessor(false);
+    }
 
-
-//    @Bean("llamaChatClient")
-//    @Primary
-//    public ChatClient llamaChatClient(@Qualifier("llamaModel") ChatModel chatModel) {
-//        ChatClient llamaChatClient = ChatClient.builder(chatModel).build();
-//        return llamaChatClient;
-//    }
 }

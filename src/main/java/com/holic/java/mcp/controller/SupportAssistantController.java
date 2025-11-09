@@ -1,6 +1,7 @@
 package com.holic.java.mcp.controller;
 
-import com.holic.java.mcp.service.OrchestratorService;
+import com.holic.java.mcp.orchestrator.ChainOrchestrator;
+import com.holic.java.mcp.orchestrator.OrchestratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +15,15 @@ import org.springframework.web.bind.annotation.*;
 public class SupportAssistantController {
 
     private final OrchestratorService orchestratorService;
+    private final ChainOrchestrator chainOrchestrator;
 
     @GetMapping("/{user}/ask")
     public String ask(@PathVariable Integer user, @RequestParam String question) {
-        String agentResponse = orchestratorService.orchestrate(user, question);
-        return agentResponse;
+        return orchestratorService.orchestrate(user, question);
     }
 
     @GetMapping("/{user}/chain/ask")
     public String askChain(@PathVariable Integer user, @RequestParam String question) {
-        String agentResponse = orchestratorService.orchestrateChain(user, question);
-        return agentResponse;
+        return chainOrchestrator.orchestrateChain(user, question);
     }
 }

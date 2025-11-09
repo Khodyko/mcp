@@ -29,9 +29,9 @@ public class OrderAgentImpl implements OrderAgent {
     private final ProductService productService;
 
     @Override
-    @Tool(description = "Create order for product", name = AGENT_NAME)
+    @Tool(description = "creates product order by customer", name = AGENT_NAME)
     public String handle(@ToolParam(description = "product name") String productName,
-                         @ToolParam(description = "count") Integer quantity,
+                         @ToolParam(description = "count of products to order") Integer quantity,
                          ToolContext context) {
         Map<String, Object> map = context.getContext();
         ProductDto productDto = productService.getProductsByNameIgnoreCase(productName);

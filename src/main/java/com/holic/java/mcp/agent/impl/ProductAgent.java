@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProductAgent implements SupportAgent {
 
-    private final String AGENT_NAME = "ProductAgent";
+    public static final String AGENT_NAME = "ProductAgent";
     private final ProductVectorRepository productVectorRepository;
 
     @Override

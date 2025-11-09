@@ -10,6 +10,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class McpApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(McpApplication.class, args);
+        SpringApplication.run(McpApplication.class, args);
     }
 }

@@ -28,38 +28,36 @@ public class DocumentLoaderAgent {
     private final CustomerRepository customerRepository;
     private final ObjectMapper objectMapper;
 
-    @Tool(description = "load products to database using standard folder.", name = "productFromFolderLoader")
+//    @Tool(description = "loads products info to database using data from file.", name = "productFromFolderLoader")
+    @Tool(description = "загружает  информацию о продуктах в базу данных из файла", name = "productFromFolderLoader")
     public String loadProductsJsonFile() {
         Resource productsJson = new ClassPathResource("products-data.json");
         try (InputStream is = productsJson.getInputStream()) {
-//            List<ProductDto> products = objectMapper.readValue(is, new TypeReference<>() {
-//            });
-//            productService.createProducts(products);
-//            log.info("Loaded {} products from JSON", products.size());
-//            return "saved " + products.size() + " products";
-
-            log.info("Loaded {} products from JSON", 5);
-            return "saved 5 products from " + productsJson.getFilename();
+            List<ProductDto> products = objectMapper.readValue(is, new TypeReference<>() {
+            });
+            productService.createProducts(products);
+            log.info("Loaded {} products from JSON", products.size());
+            return "saved " + products.size() + " products";
         } catch (Exception e) {
             log.error("Failed to load products-data.json", e);
             return "error: " + e.getMessage();
         }
     }
 
-    @Tool(description = "load customers to database using standard folder.", name = "customerFromFolderLoader")
+//    @Tool(description = "loads customers info to database using data from file.", name = "customerFromFolderLoader")
+    @Tool(description = "загружает информацию о заказчиках в базу данных из файла", name = "customerFromFolderLoader")
     public String loadCustomerJsonFile() {
-//        Resource customerJson = new ClassPathResource("customer-data.json");
-//        try (InputStream is = customerJson.getInputStream()) {
-//            List<Customer> customers = objectMapper.readValue(is, new TypeReference<>() {
-//            });
-//            customerRepository.saveAll(customers);
-//            log.info("Loaded {} customers from JSON", customers.size());
-//            return "saved " + customers.size() + " customers";
-//        } catch (Exception e) {
-//            log.error("Failed to load customer-data.json", e);
-//            return "error: " + e.getMessage();
-//        }
-        return "saved 5";
+        Resource customerJson = new ClassPathResource("customer-data.json");
+        try (InputStream is = customerJson.getInputStream()) {
+            List<Customer> customers = objectMapper.readValue(is, new TypeReference<>() {
+            });
+            customerRepository.saveAll(customers);
+            log.info("Loaded {} customers from JSON", customers.size());
+            return "saved " + customers.size() + " customers";
+        } catch (Exception e) {
+            log.error("Failed to load customer-data.json", e);
+            return "error: " + e.getMessage();
+        }
     }
 
 }

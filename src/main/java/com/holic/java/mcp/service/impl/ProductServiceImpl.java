@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProductsByNameIgnoreCase(String productName) {
-        Product product = productRepository.getProductsByNameIgnoreCase(productName);
+        Product product = productRepository.getFirstProductsByNameIgnoreCase(productName);
         return productMapper.toDto(product);
     }
 }

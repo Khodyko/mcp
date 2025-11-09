@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 @Primary
 public class ToolExecutionEligibilityPredicateImpl implements ToolExecutionEligibilityPredicate {
+
     @Override
     public boolean test(ChatOptions promptOptions, ChatResponse chatResponse) {
-        //todo rewrite to check isService can handle
+        //before tool calling
         return ToolCallingChatOptions.isInternalToolExecutionEnabled(promptOptions) && chatResponse != null && chatResponse.hasToolCalls();
     }
+
 }
