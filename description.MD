@@ -14,8 +14,9 @@
 - [x] Реализовать ToolExecutionEligibilityPredicate для понимания запускать или нет Агент
 - [x] Оркестратор выбирает и вызывает подходящие агенты
 - [x] Показать цепочки вызовов ИИ
-- [x] Реализованы агенты: OrderAgent, ProductAgent, RecommendationAgent, FallbackAgent
-- [ ] Пример использования доступен для демонстрации и тестирования
+- [x] Реализованы агенты: OrderAgent, ProductAgent, FallbackAgent
+- [x] Пример использования доступен для демонстрации и тестирования
+- [ ] Программа максимум: показать advanced orchestrators
 
 
 
