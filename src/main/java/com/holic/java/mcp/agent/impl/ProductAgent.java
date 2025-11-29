@@ -19,6 +19,8 @@ public class ProductAgent implements SupportAgent {
     @Override
     @Tool(description = "returns products description by query", name = AGENT_NAME)
     public String handle(String query) {
+
+        //здесь можно подготовить query (убрать всякие "дай, мне пожалуйста")
         return productVectorRepository.searchProductsByDescription(query, 2).toString();
     }
 

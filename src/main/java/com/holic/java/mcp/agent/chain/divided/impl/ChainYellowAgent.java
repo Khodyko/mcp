@@ -1,6 +1,6 @@
-package com.holic.java.mcp.agent.chain.impl;
+package com.holic.java.mcp.agent.chain.divided.impl;
 
-import com.holic.java.mcp.agent.chain.ChainAgent;
+import com.holic.java.mcp.agent.chain.divided.ChainAgent;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.holic.java.mcp.agent.chain;
+package com.holic.java.mcp.agent.chain.divided;
 
 public interface ChainAgent {
 

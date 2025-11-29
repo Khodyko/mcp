@@ -32,18 +32,17 @@ public class AIConfig {
     }
 
     @Bean("openAiChatModel1")
-    public ChatModel chatModel() {
+    public ChatModel chatModel(ToolCallingManager  toolCallingManager) {
         var openAiApi = OpenAiApi.builder().apiKey(openAiApiKey)
                 .build();
         return OpenAiChatModel.builder()
+                .toolCallingManager(toolCallingManager)
                 .toolExecutionEligibilityPredicate(toolExecutionEligibilityPredicate)
                 .openAiApi(openAiApi)
                 .build();
     }
 
-    /**
-     * Менеджер исполнения tool-calls в user-controlled режиме.
-     */
+    /** Менеджер исполнения tool-calls в user-controlled режиме. */
     @Bean
     public ToolCallingManager toolCallingManager() {
         return DefaultToolCallingManager.builder().build();

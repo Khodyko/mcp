@@ -1,7 +1,7 @@
 package com.holic.java.mcp.orchestrator.impl;
 
-import com.holic.java.mcp.agent.chain.ChainAgent;
-import com.holic.java.mcp.agent.chain.impl.MainChainAgent;
+import com.holic.java.mcp.agent.chain.divided.ChainAgent;
+import com.holic.java.mcp.agent.chain.divided.impl.MainChainAgent;
 import com.holic.java.mcp.orchestrator.ChainOrchestrator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

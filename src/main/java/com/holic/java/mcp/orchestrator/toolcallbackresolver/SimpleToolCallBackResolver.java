@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.support.ToolCallbacks;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.function.FunctionToolCallback;
+import org.springframework.ai.tool.metadata.ToolMetadata;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Stream;
@@ -50,8 +51,9 @@ public class SimpleToolCallBackResolver {
     public ToolCallback[] getToolCalBackByFunctionCall(String query) {
         ToolCallback toolCallback = FunctionToolCallback
                 .builder(AGENT_NAME, productAgent::handle)
-                .description("Get the weather in location")
+                .description("returns products description by query")
                 .inputType(String.class)
+                .toolMetadata(ToolMetadata.builder().returnDirect(true).build())
                 .build();
 
         return ToolCallbacks.from(toolCallback);
