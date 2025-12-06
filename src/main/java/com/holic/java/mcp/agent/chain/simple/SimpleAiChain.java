@@ -106,18 +106,19 @@ public class SimpleAiChain {
         int counter = 0;
         while (true) {
             counter++;
-            String currentQuery = String.format(continuePromptTemplate, result, "Добавь еще одного герой рассказа");
+            String currentQuery = String.format(continuePromptTemplate, result, "Добавь еще одного героя рассказа");
             log.debug("currentQuery {}", currentQuery);
             result = chatClient
                     .prompt(currentQuery)
-                    .system(systemPrompt + "напиши в конце сколько героев рассказа получилось, фразой - Получилось ... героев.")
+                    .system(systemPrompt +
+                            "напиши в конце сколько героев рассказа получилось, фразой - Получилось ... героев.")
                     .call()
                     .content();
             log.debug("result: {}", result);
             if (result.contains("Получилось 5 героев")) {
                 break;
             }
-            if(counter>=12){
+            if (counter >= 12) {
                 throw new RuntimeException("Запрос зациклился");
             }
         }

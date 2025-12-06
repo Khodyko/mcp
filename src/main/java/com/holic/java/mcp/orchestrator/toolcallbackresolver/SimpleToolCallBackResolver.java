@@ -39,9 +39,10 @@ public class SimpleToolCallBackResolver {
         return Stream.of(productAgent).toArray();
     }
 
-    //вызов по классу
     public Object[] getAllTools(String query) {
-        return Stream.of(orderAgent, documentLoaderAgent, productAgent).toArray();
+        return Stream
+                .of(orderAgent, documentLoaderAgent, productAgent)
+                .toArray();
     }
 
     public ToolCallback[] getAllToolCallbackByClass(String query) {

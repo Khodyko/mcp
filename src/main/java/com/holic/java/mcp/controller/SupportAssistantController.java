@@ -4,6 +4,7 @@ import com.holic.java.mcp.agent.chain.simple.SimpleAiChain;
 import com.holic.java.mcp.orchestrator.ChainOrchestrator;
 import com.holic.java.mcp.orchestrator.OrchestratorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -14,14 +15,28 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/ai/support")
 @RequiredArgsConstructor
 public class SupportAssistantController {
-
+    @Qualifier("simpleOrchestrator")
     private final OrchestratorService orchestratorService;
+    @Qualifier("aiBasedOrchestrator")
+    private final OrchestratorService aiBasedOrchestrator;
+    @Qualifier("toolBasedOrchestrator")
+    private final OrchestratorService toolBasedOrchestrator;
     private final ChainOrchestrator chainOrchestrator;
     private final SimpleAiChain simpleAiChain;
 
-    @GetMapping("/{user}")
-    public String ask(@PathVariable Integer user, @RequestParam String question) {
+    @GetMapping("/{user}/orchestrator/simple")
+    public String askOrchestrator(@PathVariable Integer user, @RequestParam String question) {
         return orchestratorService.orchestrate(user, question);
+    }
+
+    @GetMapping("/{user}/orchestrator/aibased")
+    public String askAiBasedoOrchestrator(@PathVariable Integer user, @RequestParam String question) {
+        return aiBasedOrchestrator.orchestrate(user, question);
+    }
+
+    @GetMapping("/{user}/orchestrator/toolbased")
+    public String askToolBasedOrchestrator(@PathVariable Integer user, @RequestParam String question) {
+        return toolBasedOrchestrator.orchestrate(user, question);
     }
 
     @GetMapping("/{user}/chain/simple")

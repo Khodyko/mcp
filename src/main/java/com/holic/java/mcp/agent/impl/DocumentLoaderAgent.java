@@ -23,6 +23,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class DocumentLoaderAgent {
+    public static final String AGENT_NAME = "productFromFolderLoader";
 
     private final ProductService productService;
     private final CustomerRepository customerRepository;

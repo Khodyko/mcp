@@ -30,10 +30,12 @@ public class SimpleOrchestrator implements OrchestratorService {
     @Override
     public String orchestrate(Integer userId, String query) {
         Map<String, Object> toolContext = Map.of(CUSTOMER_ID, userId);
-
-        String query2 = query.replace("{", "\\{").replace("}", "\\}");
+        //проблема с кавычками
+        String query2 = query.replace("{", "\\{")
+                .replace("}", "\\}");
         Prompt prompt = new Prompt(query2);
-        prompt.augmentSystemMessage("вызывай tool только, если это явно указано в запросе.");
+        prompt.augmentSystemMessage(
+                "вызывай tool только, если это явно указано в запросе.");
 
         String response = openAiChatClient
                 .prompt(prompt)
@@ -76,5 +78,4 @@ public class SimpleOrchestrator implements OrchestratorService {
 
         return response;
     }
-
 }
