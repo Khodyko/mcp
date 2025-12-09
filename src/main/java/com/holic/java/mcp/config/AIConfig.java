@@ -1,5 +1,6 @@
 package com.holic.java.mcp.config;
 
+import com.holic.java.mcp.agent.impl.ProductAgent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
@@ -8,8 +9,10 @@ import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.model.tool.ToolExecutionEligibilityPredicate;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.execution.DefaultToolExecutionExceptionProcessor;
 import org.springframework.ai.tool.execution.ToolExecutionExceptionProcessor;
+import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -55,6 +58,13 @@ public class AIConfig {
     @Bean
     public ToolExecutionExceptionProcessor toolExecutionExceptionProcessor() {
         return new DefaultToolExecutionExceptionProcessor(false);
+    }
+
+    @Bean
+    public ToolCallbackProvider tools(ProductAgent productAgent) {
+        return MethodToolCallbackProvider.builder()
+                .toolObjects(productAgent)
+                .build();
     }
 
 }
