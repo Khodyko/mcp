@@ -21,7 +21,6 @@ public class SupportAssistantController {
     private final OrchestratorService aiBasedOrchestrator;
     @Qualifier("toolBasedOrchestrator")
     private final OrchestratorService toolBasedOrchestrator;
-    private final ChainOrchestrator chainOrchestrator;
     private final SimpleAiChain simpleAiChain;
 
     @GetMapping("/{user}/orchestrator/simple")
@@ -37,11 +36,6 @@ public class SupportAssistantController {
     @GetMapping("/{user}/orchestrator/toolbased")
     public String askToolBasedOrchestrator(@PathVariable Integer user, @RequestParam String question) {
         return toolBasedOrchestrator.orchestrate(user, question);
-    }
-
-    @GetMapping("/{user}/chain/simple")
-    public String askChain(@PathVariable Integer user, @RequestParam String question) {
-        return chainOrchestrator.orchestrateChain(user, question);
     }
 
     @GetMapping("/{user}/chain/seq")
