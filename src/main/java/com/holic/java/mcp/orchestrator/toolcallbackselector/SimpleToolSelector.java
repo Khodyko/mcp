@@ -1,4 +1,4 @@
-package com.holic.java.mcp.orchestrator.toolcallbackresolver;
+package com.holic.java.mcp.orchestrator.toolcallbackselector;
 
 import com.holic.java.mcp.agent.FallBackAgent;
 import com.holic.java.mcp.agent.OrderAgent;
@@ -19,7 +19,7 @@ import static com.holic.java.mcp.agent.impl.ProductAgent.AGENT_NAME;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class SimpleToolCallBackResolver {
+public class SimpleToolSelector {
 
     private final DocumentLoaderAgent documentLoaderAgent;
     private final ProductAgent productAgent;

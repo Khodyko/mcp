@@ -1,7 +1,7 @@
 package com.holic.java.mcp.orchestrator.impl;
 
 import com.holic.java.mcp.orchestrator.OrchestratorService;
-import com.holic.java.mcp.orchestrator.toolcallbackresolver.ToolBasedToolResolver;
+import com.holic.java.mcp.orchestrator.toolcallbackselector.ToolBasedToolSelector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -21,7 +21,7 @@ public class ToolBasedOrchestrator implements OrchestratorService {
 
     @Qualifier("openAiChatClient")
     private final ChatClient openAiChatClient;
-    private final ToolBasedToolResolver toolBasedToolResolver;
+    private final ToolBasedToolSelector toolBasedToolSelector;
 
     @Override
     public String orchestrate(Integer userId, String query) {
@@ -35,7 +35,7 @@ public class ToolBasedOrchestrator implements OrchestratorService {
                 .prompt(prompt)
                 .toolContext(toolContext)
                 .tools(
-                        toolBasedToolResolver.determineAllowedTools(query)
+                        toolBasedToolSelector.determineAllowedTools(query)
                 )
                 .advisors(SimpleLoggerAdvisor.builder().order(-1).build())
                 .call()

@@ -1,8 +1,9 @@
-package com.holic.java.mcp.orchestrator.toolcallbackresolver;
+package com.holic.java.mcp.orchestrator.toolcallbackselector;
 
 import com.holic.java.mcp.agent.FallBackAgent;
 import com.holic.java.mcp.agent.OrderAgent;
 import com.holic.java.mcp.agent.impl.DocumentLoaderAgent;
+import com.holic.java.mcp.agent.impl.FindToolNameAgent;
 import com.holic.java.mcp.agent.impl.ProductAgent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,18 +16,11 @@ import java.util.stream.Stream;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AiBasedToolCallBackResolver {
+public class ToolBasedToolSelector {
 
     @Qualifier("openAiChatClient")
     private final ChatClient openAiChatClient;
-    private final String findToolCall = """
-            Определи с чем связан запрос
-            1. Заказ продукта пользователем
-            2. Настройка базы данных
-            3. Ничего
-            Верни только цифру 1, 2, или 3.
-            """;
-
+    private final FindToolNameAgent findToolNameAgent;
     private final DocumentLoaderAgent documentLoaderAgent;
     private final ProductAgent productAgent;
     private final OrderAgent orderAgent;
@@ -35,7 +29,8 @@ public class AiBasedToolCallBackResolver {
     public  Object[]  determineAllowedTools(String query) {
         String response = openAiChatClient
                 .prompt(query)
-                .user(findToolCall)
+                .tools(findToolNameAgent)
+                .user("Верни только ответ из агента")
                 .call()
                 .content();
 
@@ -47,5 +42,4 @@ public class AiBasedToolCallBackResolver {
             return  Stream.empty().toArray();
         }
     }
-
 }

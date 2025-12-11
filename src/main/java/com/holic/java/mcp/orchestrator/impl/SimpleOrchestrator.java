@@ -1,12 +1,11 @@
 package com.holic.java.mcp.orchestrator.impl;
 
 import com.holic.java.mcp.orchestrator.OrchestratorService;
-import com.holic.java.mcp.orchestrator.toolcallbackresolver.SimpleToolCallBackResolver;
+import com.holic.java.mcp.orchestrator.toolcallbackselector.SimpleToolSelector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
-import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
@@ -25,7 +24,7 @@ public class SimpleOrchestrator implements OrchestratorService {
 
     @Qualifier("openAiChatClient")
     private final ChatClient openAiChatClient;
-    private final SimpleToolCallBackResolver simpleToolCallBackResolver;
+    private final SimpleToolSelector simpleToolSelector;
 
     @Override
     public String orchestrate(Integer userId, String query) {
@@ -46,7 +45,7 @@ public class SimpleOrchestrator implements OrchestratorService {
                 .toolContext(toolContext)
                 .tools(
                         //documentLoaderAgent,  productAgent,  orderAgent, fallBackAgent
-                        simpleToolCallBackResolver.getAllTools(query)
+                        simpleToolSelector.getAllTools(query)
                 )
                 .advisors(SimpleLoggerAdvisor.builder().order(-1).build())
                 .call()
@@ -63,7 +62,7 @@ public class SimpleOrchestrator implements OrchestratorService {
         ChatOptions chatOptions = ToolCallingChatOptions.builder()
                 .internalToolExecutionEnabled(false)
                     // takes list or array
-                .toolCallbacks(simpleToolCallBackResolver.getAllToolCallbackByClass(query))
+                .toolCallbacks(simpleToolSelector.getAllToolCallbackByClass(query))
                 .toolContext(toolContext)
                 .build();
 
