@@ -33,7 +33,6 @@ public class ToolBasedOrchestrator implements OrchestratorService {
 
         String response = openAiChatClient
                 .prompt(prompt)
-                .user(String.valueOf(userId))
                 .toolContext(toolContext)
                 .tools(
                         toolBasedToolResolver.determineAllowedTools(query)

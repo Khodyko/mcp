@@ -33,13 +33,16 @@ public class SimpleOrchestrator implements OrchestratorService {
         //проблема с кавычками
         String query2 = query.replace("{", "\\{")
                 .replace("}", "\\}");
+//        ChatOptions chatOptions = ToolCallingChatOptions.builder()
+//                .internalToolExecutionEnabled(false)
+//                .build();
+//        Prompt prompt = new Prompt(query2, chatOptions);
         Prompt prompt = new Prompt(query2);
         prompt.augmentSystemMessage(
                 "вызывай tool только, если это явно указано в запросе.");
 
         String response = openAiChatClient
                 .prompt(prompt)
-                .user(String.valueOf(userId))
                 .toolContext(toolContext)
                 .tools(
                         //documentLoaderAgent,  productAgent,  orderAgent, fallBackAgent

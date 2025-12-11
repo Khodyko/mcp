@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AiBasedToolCalBackResolver {
+public class AiBasedToolCallBackResolver {
 
     @Qualifier("openAiChatClient")
     private final ChatClient openAiChatClient;
