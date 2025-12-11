@@ -4,6 +4,7 @@ import com.holic.java.mcp.agent.SupportAgent;
 import com.holic.java.mcp.repository.ProductVectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,8 +18,8 @@ public class ProductAgent implements SupportAgent {
     private final ProductVectorRepository productVectorRepository;
 
     @Override
-    @Tool(description = "returns products description by query", name = AGENT_NAME)
-    public String handle(String query) {
+    @Tool(description = "возвращает описание продуктов по описанию", name = AGENT_NAME)
+    public String handle(@ToolParam(description = "описание продукта") String query) {
 
         //здесь можно подготовить query (убрать всякие "дай, мне пожалуйста")
         return productVectorRepository.searchProductsByDescription(query, 2).toString();

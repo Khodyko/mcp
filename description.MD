@@ -16,7 +16,7 @@
 - [x] Показать цепочки вызовов ИИ
 - [x] Реализованы агенты: OrderAgent, ProductAgent, FallbackAgent
 - [x] Пример использования доступен для демонстрации и тестирования
-- [ ] Программа максимум: показать advanced orchestrators
+- [x] Программа максимум: показать advanced orchestrators
 
 
 
